@@ -39,9 +39,9 @@ module.exports = class extends Generator {
   writing() {
     // Add project directory
     if (path.basename(this.destinationPath()) !== this.props.name) {
-        fse.mkdirpSync()
+        fse.mkdirpSync(this.props.name);
+        this.destinationRoot(this.destinationPath(this.props.name));
     }
-
     
     // Add configuration files
     this.fs.copy(
@@ -50,6 +50,9 @@ module.exports = class extends Generator {
       {globOptions: {dot: true}}
     );
 
+    // Make directory for project source code files
+    fse.mkdirSync(path.join(this.destinationPath(), 'src'))
+    
     // Update package.json
     this.fs.extendJSON(
       this.destinationPath('package.json'),
@@ -73,7 +76,7 @@ module.exports = class extends Generator {
         'css-loader', 
         'eslint', 
         'html-webpack-plugin', 
-        'minicss-extract-plugin', 
+        'mini-css-extract-plugin', 
         'speed-measure-webpack-plugin',
         'style-loader', 
         'ts-loader', 
