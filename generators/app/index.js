@@ -2,6 +2,8 @@
 const Generator = require('yeoman-generator');
 const chalk = require('chalk');
 const yosay = require('yosay');
+const path = require('path');
+const fse = require('fs-extra');
 
 module.exports = class extends Generator {
   prompting() {
@@ -14,14 +16,17 @@ module.exports = class extends Generator {
       {
         type: 'input',
         name: 'name',
-        message: 'Project name',
-        default: this.appname
+        message: 'Project Name',
+        default: path.basename(path.cwd())
       },
       {
+        when: function(response) {
+          // return if current path equals name passed
+          response.name === path.join(path.cwd(), response.name)
+        },
         type: 'confirm',
-        name: 'someAnswer',
-        message: 'Would you like to enable this option?',
-        default: true
+        name: 'create_dir',
+        message: `Current directory ${path.basename(path.cwd())} does not match project name. Create new directory?`
       }
     ];
 
@@ -32,6 +37,14 @@ module.exports = class extends Generator {
   }
 
   writing() {
+    // Add project directory
+    if (path.basename(this.destinationPath()) !== this.props.name) {
+      this.log(`The current directory ${path.basename(path.cwd())} does not match ${this.props.name}`)
+      this.log(`A new directory matching ${this.props.name} will be created in the current directory`)
+        fse.mkdirpSync()
+    }
+
+    
     // Add configuration files
     this.fs.copy(
       this.templatePath('configurations/**/*'),
