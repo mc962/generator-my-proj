@@ -17,16 +17,16 @@ module.exports = class extends Generator {
         type: 'input',
         name: 'name',
         message: 'Project Name',
-        default: path.basename(path.cwd())
+        default: path.basename(process.cwd())
       },
       {
         when: function(response) {
           // return if current path equals name passed
-          response.name === path.join(path.cwd(), response.name)
+          response.name === path.join(process.cwd(), response.name)
         },
         type: 'confirm',
         name: 'create_dir',
-        message: `Current directory ${path.basename(path.cwd())} does not match project name. Create new directory?`
+        message: `Current directory ${path.basename(process.cwd())} does not match project name. Create new directory?`
       }
     ];
 
@@ -39,7 +39,7 @@ module.exports = class extends Generator {
   writing() {
     // Add project directory
     if (path.basename(this.destinationPath()) !== this.props.name) {
-      this.log(`The current directory ${path.basename(path.cwd())} does not match ${this.props.name}`)
+      this.log(`The current directory ${path.basename(process.cwd())} does not match ${this.props.name}`)
       this.log(`A new directory matching ${this.props.name} will be created in the current directory`)
         fse.mkdirpSync()
     }
