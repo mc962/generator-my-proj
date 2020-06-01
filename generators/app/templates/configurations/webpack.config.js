@@ -3,7 +3,6 @@ process.env.NODE_ENV = process.env.NODE_ENV || 'development';
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 const SpeedMeasurePlugin = require("speed-measure-webpack-plugin");
-// const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 
 const webpackConfig = {
     mode: process.env.NODE_ENV,
