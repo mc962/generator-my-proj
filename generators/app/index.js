@@ -22,7 +22,7 @@ module.exports = class extends Generator {
       {
         when: function(response) {
           // return if current path equals name passed
-          response.name === path.join(process.cwd(), response.name)
+          return response.name === path.join(process.cwd(), response.name)
         },
         type: 'confirm',
         name: 'create_dir',
