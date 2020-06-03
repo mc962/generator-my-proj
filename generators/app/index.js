@@ -51,7 +51,18 @@ module.exports = class extends Generator {
     );
 
     // Make directory for project source code files
-    fse.mkdirSync(path.join(this.destinationPath(), 'src'))
+    fse.mkdirSync(path.join(this.destinationPath(), 'src'));
+    
+    // Add entry point file
+    this.fs.copy(
+      this.templatePath('content/index.ts'),
+      this.destinationPath(path.join('src', 'index.ts'))
+    )
+    // Add template file for HtmlWebpackPlugin
+    this.fs.copy(
+      this.templatePath('content/index.html'),
+      this.destinationPath(path.join('src', 'index.html'))
+    )
     
     // Update package.json
     this.fs.extendJSON(
@@ -63,7 +74,7 @@ module.exports = class extends Generator {
           "build": "webpack"
         }
       }
-    )
+    );
   }
 
   install() {
@@ -87,7 +98,7 @@ module.exports = class extends Generator {
         'webpack-dev-server'
       ],
       {'save-dev': true}
-    )
+    );
     this.installDependencies({
       npm: true,
       bower: false,

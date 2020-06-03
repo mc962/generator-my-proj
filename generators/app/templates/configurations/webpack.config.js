@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-var-requires */
 process.env.NODE_ENV = process.env.NODE_ENV || 'development';
 
 const HtmlWebpackPlugin = require('html-webpack-plugin');
@@ -30,7 +31,10 @@ const webpackConfig = {
         filename: 'index.js',
     },
     plugins: [
-        new HtmlWebpackPlugin(),
+        new HtmlWebpackPlugin({
+            hash: true,
+            template: 'src/index.html'
+        }),
     ],
     devtool: 'eval-source-map'
 };
